@@ -60,7 +60,7 @@ prompt_text = """
     "3": {
         "class_type": "KSampler",
         "inputs": {
-            "cfg": 8,
+            "cfg": 1.0,
             "denoise": 1,
             "latent_image": [
                 "5",
@@ -79,23 +79,23 @@ prompt_text = """
                 0
             ],
             "sampler_name": "euler",
-            "scheduler": "normal",
-            "seed": 8566257,
-            "steps": 20
+            "scheduler": "simple",
+            "seed": 420,
+            "steps": 4
         }
     },
     "4": {
         "class_type": "CheckpointLoaderSimple",
         "inputs": {
-            "ckpt_name": "v1-5-pruned-emaonly.safetensors"
+            "ckpt_name": "flux1-schnell-fp8.safetensors"
         }
     },
     "5": {
-        "class_type": "EmptyLatentImage",
+        "class_type": "EmptySD3LatentImage",
         "inputs": {
             "batch_size": 1,
-            "height": 512,
-            "width": 512
+            "height": 1024,
+            "width": 1024
         }
     },
     "6": {
@@ -105,7 +105,7 @@ prompt_text = """
                 "4",
                 1
             ],
-            "text": "masterpiece best quality girl"
+            "text": "A film still of a sexy succubus enchanting a young man, argument, 4k resolution, cool-toned color grading, rack focus, set in 1881"
         }
     },
     "7": {
@@ -115,7 +115,7 @@ prompt_text = """
                 "4",
                 1
             ],
-            "text": "bad hands"
+            "text": ""
         }
     },
     "8": {
@@ -146,10 +146,10 @@ prompt_text = """
 
 prompt = json.loads(prompt_text)
 #set the text prompt for our positive CLIPTextEncode
-prompt["6"]["inputs"]["text"] = "masterpiece best quality man"
+#prompt["6"]["inputs"]["text"] = "masterpiece best quality man"
 
 #set the seed for our KSampler node
-prompt["3"]["inputs"]["seed"] = 5
+prompt["3"]["inputs"]["seed"] = 69
 
 ws = websocket.WebSocket()
 ws.connect("ws://{}/ws?clientId={}".format(server_address, client_id))
@@ -157,6 +157,7 @@ images = get_images(ws, prompt)
 ws.close() # for in case this example is used in an environment where it will be repeatedly called, like in a Gradio app. otherwise, you'll randomly receive connection timeouts
 #Commented out code to display the output images:
 
+breakpoint()
 # for node_id in images:
 #     for image_data in images[node_id]:
 #         from PIL import Image

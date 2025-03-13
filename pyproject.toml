@@ -22,3 +22,6 @@ lint.select = [
   "F",
 ]
 exclude = ["*.ipynb"]
+
+[tool.poetry.dependencies]
+websocket-client = "^1.8.0"
